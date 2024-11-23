@@ -8,13 +8,24 @@ pipeline {
         }
         stage('Build Website') {
             steps {
-                bat './hello.bat'
+                script {
+                    if (isUnix()) {
+                        sh './hello.sh'  // Use shell script for Linux
+                    } else {
+                        bat './hello.bat'  // Use batch script for Windows
+                    }
+                }
             }
         }
         stage('HTML Validation') {
             steps {
-                echo 'Running HTML Validation...'
-                bat 'tidy -q -e index.html || echo "HTML issues detected!"'
+                script {
+                    if (isUnix()) {
+                        sh 'tidy -q -e index.html || echo "HTML issues detected!"'  // Linux command
+                    } else {
+                        bat 'tidy -q -e index.html || echo "HTML issues detected!"'  // Windows command
+                    }
+                }
             }
         }
     }
