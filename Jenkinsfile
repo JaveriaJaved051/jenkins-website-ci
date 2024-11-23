@@ -8,13 +8,14 @@ pipeline {
         }
         stage('Build Website') {
             steps {
-                sh './hello.bat'
+                bat './hello.bat'
             }
         }
         stage('HTML Validation') {
             steps {
                 echo 'Running HTML Validation...'
-                sh 'tidy -q -e index.html || echo "HTML issues detected!"'
+                // Use 'bat' to run HTML validation command in Windows
+                bat 'tidy -q -e index.html || echo "HTML issues detected!"'
             }
         }
     }
